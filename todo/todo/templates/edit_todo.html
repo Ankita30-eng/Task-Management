@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Task</title>
+  <style>
+    body { font-family: Arial; background: #f0f2f5; }
+    .container { width: 400px; margin: 100px auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 0 10px gray; text-align: center; }
+    input { width: 90%; padding: 10px; margin: 10px 0; }
+    label { display: block; margin-bottom: 5px; text-align: left; }
+    button { padding: 10px 20px; border: none; border-radius: 5px; background: #ffc107; cursor: pointer; color: black; }
+    button:hover { background: #e0a800; }
+    a { text-decoration: none; color: #007bff; display: inline-block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Task</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <label>Title:</label>
+      <input type="text" name="title" value="{{ todo.title }}" required><br>
+      <label>
+        <input type="checkbox" name="completed" {% if todo.status %}checked{% endif %}> Completed
+      </label><br>
+      <button type="submit">Update</button>
+    </form>
+    <a href="/todopage/">Back to TODO List</a>
+  </div>
+</body>
+</html>

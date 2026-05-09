@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My TODO List</title>
+  <style>
+    body { font-family: Arial; background: #eef2f3; }
+    .container { width: 700px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px gray; }
+    h2 { text-align: center; }
+    .logout { float: right; background: #dc3545; color: white; padding: 8px 12px; border-radius: 5px; text-decoration: none; }
+    form { text-align: center; margin-bottom: 20px; }
+    input { padding: 10px; width: 60%; }
+    button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; }
+    button:hover { background: #0056b3; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: center; }
+    a { text-decoration: none; padding: 5px 10px; border-radius: 5px; color: white; }
+    .edit { background: #ffc107; color: black; }
+    .delete { background: #dc3545; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/loggout/" class="logout">Logout</a>
+    <h2>✅ My TODO List</h2>
+
+    <!-- Add new task -->
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="title" placeholder="Enter new task" required>
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Task list -->
+    <table>
+      <tr>
+        <th>Sr No</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+      {% for i in res %}
+      <tr>
+        <td>{{ i.srno }}</td>
+        <td>{{ i.title }}</td>
+        <td>{% if i.status %}✅ Done{% else %}⏳ Pending{% endif %}</td>
+        <td>{{ i.date|date:"d-m-Y H:i" }}</td>
+        <td>
+          <a href="/edit_todo/{{ i.srno }}/" class="edit">Edit</a>
+          <a href="/delete_todo/{{ i.srno }}/" class="delete">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No tasks added yet!</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>
